@@ -397,7 +397,8 @@ li {
 body.login .button-primary {
   background-color: #f95738;
   border-color: #f83e1a;
-  text-shadow: 0 -1px 1px #f8320c, 1px 0 1px #f8320c, 0 1px 1px #f8320c, -1px 0 1px #f8320c;
+  text-shadow: 0 -1px 1px #f8320c, 1px 0 1px #f8320c, 0 1px 1px #f8320c,
+    -1px 0 1px #f8320c;
   box-shadow: 0 1px 0 #ed2c07;
 }
 body.login .button-primary:active,
@@ -405,7 +406,8 @@ body.login .button-primary:focus,
 body.login .button-primary:hover {
   background-color: #f8411d;
   border-color: #f95738;
-  text-shadow: 0 -1px 1px #ed2c07, 1px 0 1px #ed2c07, 0 1px 1px #ed2c07, -1px 0 1px #ed2c07;
+  text-shadow: 0 -1px 1px #ed2c07, 1px 0 1px #ed2c07, 0 1px 1px #ed2c07,
+    -1px 0 1px #ed2c07;
   box-shadow: 0 1px 0 #de2907;
 }
 body.login {
@@ -672,7 +674,8 @@ body.login {
   padding-top: 58px;
   opacity: 0;
   transform: translateY(-20%);
-  transition: opacity 0.3s ease-out, visibility 0.3s ease-out, transform 0.3s ease-out;
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out,
+    transform 0.3s ease-out;
   padding-bottom: 20px;
 }
 .site-header__menu--active {
@@ -729,7 +732,7 @@ body.login {
 }
 @media (min-width: 960px) {
   .site-header__menu-trigger {
-    display: none;
+    display: none !important;
   }
 }
 .site-header__util {
