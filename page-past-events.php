@@ -5,7 +5,7 @@ get_header()
 <div class="page-banner">
       <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('images/library-hero.jpg')?>)"></div>
       <div class="page-banner__content container container--narrow">
-        <h1 class="page-banner__title">Upcoming Events</h1>
+        <h1 class="page-banner__title">Past Events</h1>
         <div class="page-banner__intro">
           <p><?php the_archive_description() ?></p>
         </div>
@@ -17,8 +17,26 @@ get_header()
     <!-- <h2 class="headline headline--small-plus t-center">Upcoming Events</h2> -->
 
           
-          <?php while(have_posts()){
-             the_post(); ?>
+          <?php 
+          $today = date('Ymd');
+          $pastEvents = new WP_Query(array(
+            'paged'=> get_query_var('paged', 1),
+            'post_type' => 'event',
+            'meta_key' => 'event_date',
+            'orderby' => 'meta_value',
+            'order' => 'ASC',
+            'meta_query' => array(
+              array(
+                'key' => 'event_date',
+                'compare' => '<=',
+                'value' => $today,
+                'type' => 'numeric'
+              ),
+            ),
+          ));
+          
+          while($pastEvents->have_posts()){
+             $pastEvents->the_post(); ?>
           
           <div class="event-summary">
             <a class="event-summary__date t-center" href="<?php the_permalink()?>">
@@ -35,11 +53,9 @@ get_header()
           </div>
           
           <?php } ?>
-<?php echo paginate_links(); ?>
-<br>
-<hr>
-<br>
-<p>Looking for a recap of past events? Check out our<strong> <a href="<?php echo site_url('/past-events') ?>">Past Events Archive</a></strong></p>
+<?php echo paginate_links(array(
+  'total' => $pastEvents->max_num_pages,
+)); ?>
 </div>
 
 
