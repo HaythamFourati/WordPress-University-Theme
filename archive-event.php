@@ -1,48 +1,27 @@
-<?php 
-get_header()
+<?php
+get_header();
+pageBannerTemplate(array(
+  'title' => 'All Events',
+  'subtitle' => 'See What Is Going On In Our World.',
+  'photo' => site_url('wp-content/uploads/2025/01/Home-Page-Banner-or-Footer-16-1.jpg'),
+))
 ?>
 
-<div class="page-banner">
-      <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('images/library-hero.jpg')?>)"></div>
-      <div class="page-banner__content container container--narrow">
-        <h1 class="page-banner__title">Upcoming Events</h1>
-        <div class="page-banner__intro">
-          <p><?php the_archive_description() ?></p>
-        </div>
-      </div>
-</div>
-
-
 <div class="container container--narrow page-section">
-    <!-- <h2 class="headline headline--small-plus t-center">Upcoming Events</h2> -->
+  <!-- <h2 class="headline headline--small-plus t-center">Upcoming Events</h2> -->
 
-          
-          <?php while(have_posts()){
-             the_post(); ?>
-          
-          <div class="event-summary">
-            <a class="event-summary__date t-center" href="<?php the_permalink()?>">
-              <span class="event-summary__month"><?php 
-              $eventDate = new DateTime(get_field('event_date'));
-              echo $eventDate->format('M');
-              ?></span>
-              <span class="event-summary__day"><?php echo $eventDate->format('d');?></span>
-            </a>
-            <div class="event-summary__content">
-              <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink()?>"><?php the_title()?></a></h5>
-              <p><?php echo wp_trim_words(get_the_excerpt(), 35, '...'); ?><a href="<?php the_permalink()?>" class="nu gray">Learn more</a></p>
-            </div>
-          </div>
-          
-          <?php } ?>
-<?php echo paginate_links(); ?>
-<br>
-<hr>
-<br>
-<p>Looking for a recap of past events? Check out our<strong> <a href="<?php echo site_url('/past-events') ?>">Past Events Archive</a></strong></p>
+  <?php while (have_posts()) {
+    the_post();
+    get_template_part('template-parts/event');
+  } ?>
+  <?php echo paginate_links(); ?>
+  <br>
+  <hr>
+  <br>
+  <p>Looking for a recap of past events? Check out our<strong> <a href="<?php echo site_url('/past-events') ?>">Past Events Archive</a></strong></p>
 </div>
 
 
-<?php 
+<?php
 get_footer()
 ?>
