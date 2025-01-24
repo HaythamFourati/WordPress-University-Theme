@@ -11,7 +11,10 @@
   visibility: hidden;
   opacity: 0;
   transform: scale(1.09);
-  transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s,
+    visibility 0.3s;
   box-sizing: border-box;
 
   p {
@@ -36,7 +39,8 @@
   }
 
   &__icon {
-    margin-right: 10px;
+    transform: scale(2);
+    margin-right: 20px;
     font-size: 1.8rem;
     color: $darkOrange;
     @include atMedium {
@@ -61,12 +65,13 @@
 
   &__close {
     position: absolute;
-    top: 13px;
+    top: 28px !important;
     right: 16px;
-    font-size: 2.1rem;
+    font-size: 2.5rem !important;
     cursor: pointer;
     transition: all 0.3s;
     background-color: #fff;
+    border-radius: 50%;
     color: $darkOrange;
     line-height: 0.7;
     @include atSmall {
@@ -92,7 +97,7 @@
   width: 75%;
   box-sizing: border-box;
   border: none;
-  padding: 15px 0;
+  padding: 25px 0;
   margin: 0;
   background-color: transparent;
   font-size: 1rem;
