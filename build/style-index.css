@@ -1167,6 +1167,17 @@ body.admin-bar .search-overlay {
     font-size: 2.5rem;
   }
 }
+.search-overlay__icon::after {
+  content: "";
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  z-index: -1;
+  width: 60%;
+  height: 60%;
+  border-radius: 100%;
+  top: 3px;
+  left: 3px;
+}
 .search-overlay--active {
   visibility: visible;
   opacity: 1;
@@ -1182,15 +1193,27 @@ body.admin-bar .search-overlay {
 }
 .search-overlay__close {
   position: absolute;
+  z-index: 1;
   top: 28px !important;
   right: 16px;
   font-size: 2.5rem !important;
   cursor: pointer;
   transition: all 0.3s;
-  background-color: #fff;
-  border-radius: 50%;
   color: #F95738;
   line-height: 0.7;
+}
+.search-overlay__close::after {
+  content: "";
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 70%;
+  border-radius: 10px;
+  top: 5px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 @media (min-width: 530px) {
   .search-overlay__close {

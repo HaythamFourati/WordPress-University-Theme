@@ -3,6 +3,9 @@ import $ from "jquery";
 class Search {
   // 1. describe and create/initiate our object
   constructor() {
+    // Place On the Top Important
+    this.addSearchHTML();
+    // ////////////////////
     this.resultsDiv = $("#search-overlay__results");
     this.openButton = $(".js-search-trigger");
     this.closeButton = $(".search-overlay__close");
@@ -33,7 +36,7 @@ class Search {
           this.resultsDiv.html('<div class="spinner-loader"></div>');
           this.isSpinnerVisible = true;
         }
-        this.typingTimer = setTimeout(this.getResults.bind(this), 2000);
+        this.typingTimer = setTimeout(this.getResults.bind(this), 750);
       } else {
         this.resultsDiv.html("");
         this.isSpinnerVisible = false;
@@ -44,25 +47,69 @@ class Search {
 
   getResults() {
     $.getJSON(
-      `http://university-custom-theme.local/wp-json/wp/v2/posts?search=${this.searchField.val()}`,
+      `/wp-json/university/v1/search?keyword=${this.searchField.val()}`,
       (results) => {
         this.resultsDiv.html(`
-          <h2 class="search-overlay__section-title">Related Blog Post Articles  </h2> 
-          <ul class="link-list min-list"> 
-          ${
-            results.length === 0
-              ? "No Results Found"
-              : results
-                  .map((result) => {
-                    return `<a href="${result.link}"><li>${result.title.rendered}</li><a>`;
-                  })
-                  .join("")
-          }
+    <div class="row">
+        <div class="one-third">
+        <h2 class="search-overlay__section-title"> Pages <h2>
+        <ul class="link-list min-list"> 
+      ${
+        results.pages.length === 0
+          ? "<li>No Results Found</li>"
+          : results.pages
+              .map((result) => {
+                return `<a href="${result.Link}"><li>${result.Name}</li></a>`;
+              })
+              .join("")
+      }
+      </ul>
+        </div>
+
+        <div class="one-third">
+        <h2 class="search-overlay__section-title"> Professors <h2>
+         <ul class="professor-cards"> 
+           ${
+             results.professors.length === 0
+               ? "<li>No Results Found</li>"
+               : results.professors
+                   .map((result) => {
+                     return `
+                    <li class="professor-card__list-item">
+                      <a class="professor-card" href="${result.Link}">
+                        <img class="professor-card__image" src="${result.Picture}">
+                        <span class="professor-card__name">${result.Name}</span>
+                      </a>
+                    </li>
+                  `;
+                   })
+                   .join("")
+           }
           </ul>
-          
-          `);
+
+        </div>
+
+        <div class="one-third">
+        <h2 class="search-overlay__section-title"> Posts <h2>
+
+        <ul class="link-list min-list"> 
+      ${
+        results.posts.length === 0
+          ? "<li>No Results Found</li>"
+          : results.posts
+              .map((result) => {
+                return `<a href="${result.Link}"><li>${result.Name}</li></a>`;
+              })
+              .join("")
+      }
+      </ul>
+        </div>
+
+    </div>
+        `);
       }
     );
+
     // this.resultsDiv.html();
     // this.isSpinnerVisible = false;
   }
@@ -84,7 +131,8 @@ class Search {
   openOverlay() {
     this.searchOverlay.addClass("search-overlay--active");
     $("body").addClass("body-no-scroll");
-    console.log("our open method just ran!");
+    setTimeout(() => this.searchField.focus(), 350);
+
     this.isOverlayOpen = true;
   }
 
@@ -93,6 +141,28 @@ class Search {
     $("body").removeClass("body-no-scroll");
     console.log("our close method just ran!");
     this.isOverlayOpen = false;
+    this.searchField.val(null);
+  }
+
+  addSearchHTML() {
+    $("body").append(`
+      <!-- Search Overlay Popup module -->
+  <div class="search-overlay">
+    <div class="search-overlay__top">
+      <div class="container">
+        <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
+        <input type="text" class="search-term" placeholder="What are you looking for?" id="search-term">
+        <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="container">
+      <div id="search-overlay__results">
+
+      </div>
+    </div>
+  </div>
+      
+      `);
   }
 }
 
